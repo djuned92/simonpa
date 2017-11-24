@@ -3,49 +3,6 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 class M_global extends CI_Model {
 
-	/**
-	 *
-	 * create data 
-	 * change true for get last id
-	 * @param $data = array()
-	 * ex for create : $this->m_global->store('table', $data)
-	 * ex for last_id : $this->m_global->store('table', $data, true)
-	 */
-	public function store($table, $data, $last_id = FALSE) 
-	{
-		$this->db->insert($table, $data);
-		if($last_id)
-			return $this->db->insert_id();
-	}
-
-	/**
-	 *
-	 * update specified data
-	 * @param int $id
-	 * ex : $this->m_global->update('table', $data, array('id'=> $id))
-	 */
-	public function update($table, $data, $id)
-	{
-		$this->db->update($table, $data, $id);
-	}
-
-	/**
-	 *
-	 * delete specified data
-	 * @param int $id
-	 * ex : $this->m_global->destroy('table', array('id'=> $id))
-	 */
-	public function destroy($table, $id)
-	{
-		$this->db->delete($table, $id);
-	}
-
-	/**
-	 *
-	 * get data
-	 * @param
-	 * ex : $this->m_global->fetch('table',NULL, array('id'=> DESC))
-	 */
 	public function fetch($table, $select = NULL, $join = NULL, $where = NULL, $order_by = NULL)
 	{
 		if($select !== NULL) {
@@ -63,13 +20,94 @@ class M_global extends CI_Model {
 		}
 
 		if($order_by !== NULL) {
-			$this->db->order_by($order_by);
+			foreach ($order_by as $key => $value) {
+				$this->db->order_by($key, $value);
+			}	
 		}
 
 		return $this->db->get($table);
 	}
-	
 
+	public function get_limit($table, $select = NULL, $limit = NULL, $start = NULL, $where = NULL)
+	{
+		if($select != NULL) {
+			$this->db->select($select);
+		}
+
+		if($limit != NULL) {
+			$this->db->limit($limit);
+		}
+
+		if($limit != NULL && $start != NULL) {
+			$this->db->limit($limit, $start);
+		}
+
+		if($where != NULL) {
+			$this->db->where($where);
+		}
+
+		return $this->db->get($table);
+	}
+
+	public function get_last_record($table, $limit = NULL, $order_by = NULL)
+	{
+		if($limit != NULL) {
+			$this->db->limit($limit);
+		}
+
+		if($order_by !== NULL) {
+			foreach ($order_by as $key => $value) {
+				$this->db->order_by($key, $value);
+			}	
+		}
+
+		return $this->db->get($table);
+	}
+
+	public function get_group_by($table, $select = NULL, $group_by = NULL, $order_by = NULL, $limit = NULL)
+	{
+		if($select !== NULL) {
+			$this->db->select($select);
+		}
+
+		if($group_by !== NULL) {
+			$this->db->group_by($group_by);
+		}
+
+		if($order_by !== NULL) {
+			foreach ($order_by as $key => $value) {
+				$this->db->order_by($key, $value);
+			}	
+		}
+
+		if($limit !== NULL) {
+			$this->db->limit($limit);
+		}
+
+		return $this->db->get($table);
+	}
+
+	public function add($table, $data, $last_id = FALSE) 
+	{
+		$this->db->insert($table, $data);
+		if($last_id)
+			return $this->db->insert_id();
+	}
+
+	public function add_batch($table, $data)
+	{
+		$this->db->insert_batch($table, $data);
+	}
+
+	public function update($table, $data, $id)
+	{
+		$this->db->update($table, $data, $id);
+	}
+
+	public function delete($table, $id)
+	{
+		$this->db->delete($table, $id);
+	}
 }
 
 /* End of file M_global.php */

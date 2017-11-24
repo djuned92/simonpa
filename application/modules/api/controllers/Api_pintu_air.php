@@ -1,15 +1,14 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-class Home extends MX_Controller {
+class Api_pintu_air extends MX_Controller {
 
 	public function __construct()
 	{
 		parent::__construct();
-		// $this->load->module('api/api_news');
 	}
 
-	public function index()
+	public function json_chart()
 	{
 		$name = ['Pintu Air'];
 		$x 	= $this->global->get_group_by(
@@ -41,6 +40,7 @@ class Home extends MX_Controller {
 
 		$value = [];
 		
+
 		foreach($y as $key => $val) {
 			$value[$key][] = $val['gaugeNameId'];
 			foreach($z as $r) {
@@ -51,22 +51,14 @@ class Home extends MX_Controller {
 			}
 		}
 
-		$data['tanggal'] = array_merge($name, $measureDateTime);
-		$data['measureDateTime'] = $value;
-
-		// print_r($data['measureDateTime'][0][0]);die();
-
-		$data['pintu_air'] = $this->global->get_group_by(
-								'pintu_air',
-								'gaugeNameId, measureDateTime, warningNameId',
-								NULL,
-								array('id'=>'DESC'),
-								12)->result_array();
-		$this->template->set_layout('backend')
-						->title('Home - Gentella')
-						->build('v_home', $data);
+		$tanggal = [
+			array_merge($name, $measureDateTime),
+		];
+		echo json_encode(array_merge($tanggal, $value), JSON_NUMERIC_CHECK);
+		
 	}
+
 }
 
-/* End of file Home.php */
-/* Location: ./application/modules/welcome/controllers/Home.php */
+/* End of file Api_pintu_air.php */
+/* Location: ./application/modules/api/controllers/Api_pintu_air.php */
