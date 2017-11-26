@@ -106,10 +106,11 @@
                                 '<?=$measureDateTime[6][0]?>', '<?=$measureDateTime[7][0]?>', '<?=$measureDateTime[8][0]?>',
                                 '<?=$measureDateTime[9][0]?>', '<?=$measureDateTime[10][0]?>', '<?=$measureDateTime[11][0]?>'
           ],
-          ['<?=$tanggal[1]?>',  <?=$measureDateTime[0][1]?>, <?=$measureDateTime[1][1]?>, <?=$measureDateTime[2][1]?>,
-                                  <?=$measureDateTime[3][1]?>, <?=$measureDateTime[4][1]?>, <?=$measureDateTime[5][1]?>,
-                                  <?=$measureDateTime[6][1]?>, <?=$measureDateTime[7][1]?>, <?=$measureDateTime[8][1]?>,
-                                  <?=$measureDateTime[9][1]?>, <?=$measureDateTime[10][1]?>, <?=$measureDateTime[11][1]?>
+          ['<?=$tanggal[3]?>',  <?=$measureDateTime[0][3]?>, <?=$measureDateTime[1][3]?>, <?=$measureDateTime[2][3]?>,
+                                <?=$measureDateTime[3][3]?>, <?=$measureDateTime[4][3]?>, <?=$measureDateTime[5][3]?>,
+                                <?=$measureDateTime[6][3]?>, <?=$measureDateTime[7][3]?>, <?=$measureDateTime[8][3]?>,
+                                <?=$measureDateTime[9][3]?>, <?=$measureDateTime[10][3]?>, <?=$measureDateTime[11][3]?>
+
           ],
           ['<?=$tanggal[2]?>',  <?=$measureDateTime[0][2]?>, <?=$measureDateTime[1][2]?>, <?=$measureDateTime[2][2]?>,
                                 <?=$measureDateTime[3][2]?>, <?=$measureDateTime[4][2]?>, <?=$measureDateTime[5][2]?>,
@@ -117,11 +118,10 @@
                                 <?=$measureDateTime[9][2]?>, <?=$measureDateTime[10][2]?>, <?=$measureDateTime[11][2]?>
 
           ],
-          ['<?=$tanggal[3]?>',  <?=$measureDateTime[0][3]?>, <?=$measureDateTime[1][3]?>, <?=$measureDateTime[2][3]?>,
-                                <?=$measureDateTime[3][3]?>, <?=$measureDateTime[4][3]?>, <?=$measureDateTime[5][3]?>,
-                                <?=$measureDateTime[6][3]?>, <?=$measureDateTime[7][3]?>, <?=$measureDateTime[8][3]?>,
-                                <?=$measureDateTime[9][3]?>, <?=$measureDateTime[10][3]?>, <?=$measureDateTime[11][3]?>
-
+          ['<?=$tanggal[1]?>',  <?=$measureDateTime[0][1]?>, <?=$measureDateTime[1][1]?>, <?=$measureDateTime[2][1]?>,
+                                  <?=$measureDateTime[3][1]?>, <?=$measureDateTime[4][1]?>, <?=$measureDateTime[5][1]?>,
+                                  <?=$measureDateTime[6][1]?>, <?=$measureDateTime[7][1]?>, <?=$measureDateTime[8][1]?>,
+                                  <?=$measureDateTime[9][1]?>, <?=$measureDateTime[10][1]?>, <?=$measureDateTime[11][1]?>
           ],
         ]);
 

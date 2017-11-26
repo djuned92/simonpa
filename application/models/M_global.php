@@ -3,7 +3,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 class M_global extends CI_Model {
 
-	public function fetch($table, $select = NULL, $join = NULL, $where = NULL, $order_by = NULL)
+	public function fetch($table, $select = NULL, $join = NULL, $where = NULL, $order_by = NULL, $limit = NULL)
 	{
 		if($select !== NULL) {
 			$this->db->select($select);
@@ -23,6 +23,10 @@ class M_global extends CI_Model {
 			foreach ($order_by as $key => $value) {
 				$this->db->order_by($key, $value);
 			}	
+		}
+
+		if($limit != NULL) {
+			$this->db->limit($limit);
 		}
 
 		return $this->db->get($table);

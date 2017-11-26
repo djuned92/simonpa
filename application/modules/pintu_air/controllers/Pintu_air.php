@@ -7,7 +7,7 @@ class Pintu_air extends MX_Controller {
 	{
 		parent::__construct();
 		$this->load->library('curl');	
-		$this->load->module('api/api_pintu_air');	
+		$this->load->module('api/api_users');
 	}
 
 	public function index()
@@ -34,6 +34,8 @@ class Pintu_air extends MX_Controller {
 
 	public function save_json()
 	{
+		$url 	= base_url() .'api/api_users/get_all';
+		$decode_user = json_decode($this->curl->simple_get($url), TRUE);
 		$myJSON = $this->input->post('myJSON');
 		$decode = json_decode($myJSON);
 		
@@ -77,6 +79,11 @@ class Pintu_air extends MX_Controller {
 			$time 				= $value->measureDateTime; // for compare time
 		}
 
+		$id = [];
+		foreach($decode_user['users'] as $key => $value) {
+			$id[] = $value['id'];
+		}
+
 		for ($i=0; $i < count($gaugeId); $i++) { 
 			$data [] = [
 				'gaugeId'			=> $gaugeId[$i],
@@ -110,11 +117,23 @@ class Pintu_air extends MX_Controller {
 			$result['message'] = 'Data sudah ada';
 		} else {
 			$this->global->add_batch('pintu_air', $data);
-			$result['message'] = 'Data berhasil disimpan';
+
+			$user_id = implode(',', $id);
+			$measureDateTime = $day2;
+			$query = "SELECT `u`.`username`, `pa`.`gaugeNameId`, `pa`.`measureDateTime`, `pa`.`warningNameId`,`upa`.`user_id`, `upa`.`gaugeId`
+						FROM `user_pintu_air` as `upa`
+						JOIN `users` as `u` ON `upa`.`user_id` = `u`.`id`
+						JOIN `pintu_air` as `pa` ON `upa`.`gaugeId` = `pa`.`gaugeId`
+						WHERE `upa`.`user_id` IN ($user_id)
+						AND `upa`.`is_active` = 1
+						AND `pa`.`measureDateTime` = '$measureDateTime'  
+						ORDER BY `upa`.`user_id` ASC";
+	
+			$result['message'] 					= 'Data berhasil disimpan';
+			$result['status_user_pintu_air']	= $this->db->query($query)->result_array();
 		}
 		echo json_encode($result);
 	}
-
 }
 
 /* End of file Pintu_air.php */

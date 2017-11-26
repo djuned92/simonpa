@@ -6,7 +6,7 @@ class Home extends MX_Controller {
 	public function __construct()
 	{
 		parent::__construct();
-		// $this->load->module('api/api_news');
+		$this->load->module('api/api_users');
 	}
 
 	public function index()

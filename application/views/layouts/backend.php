@@ -44,6 +44,10 @@
             #status {left: 47%;}
         }
     </style>
+    <!-- jQuery -->
+    <script src="<?=base_url('assets/vendors/jquery/dist/jquery.min.js')?>"></script>
+    <!-- Bootstrap -->
+    <script src="<?=base_url('assets/vendors/bootstrap/dist/js/bootstrap.min.js')?>"></script>
   </head>
 
   <body class="nav-md">
@@ -70,7 +74,7 @@
 
         <!-- page content -->
         <div class="right_col" role="main">
-        <?=$template['body']?>
+            <?=$template['body']?>
         </div>
         <!-- /page content -->
 
@@ -81,10 +85,6 @@
     </div>
 
     <!-- global script -->
-    <!-- jQuery -->
-    <script src="<?=base_url('assets/vendors/jquery/dist/jquery.min.js')?>"></script>
-    <!-- Bootstrap -->
-    <script src="<?=base_url('assets/vendors/bootstrap/dist/js/bootstrap.min.js')?>"></script>
     <!-- FastClick -->
     <script src="<?=base_url('assets/vendors/fastclick/lib/fastclick.js')?>"></script>
     <!-- NProgress -->
@@ -102,5 +102,7 @@
             $('body').delay(250).css({'overflow':'visible'});
         });
     </script>
+
+
   </body>
 </html>
