@@ -53,10 +53,8 @@ class Api_news extends MX_Controller {
 		echo json_encode($result); 
 	}
 
-	public function get_by_id()
+	public function get_by_id($id)
 	{
-		$id = $this->input->post('id');
-
 		$news = $this->global->fetch(
 					'news',
 					'*',
@@ -78,24 +76,25 @@ class Api_news extends MX_Controller {
 
 	public function add()
 	{
-		
-		$config['upload_path'] = './assets/images/news/';
-		$config['allowed_types'] = 'gif|jpg|png';
-		$config['max_size']  = '2048';
-		$config['max_width']  = '1024';
-		$config['max_height']  = '768';
-		
+		$config['upload_path'] 		= './assets/images/news/';
+		$config['allowed_types'] 	= 'gif|jpg|png';
+		$config['max_size']  		= 2048;
+		$config['max_width']  		= 1024;
+		$config['max_height']  		= 768;
+		$config['encrypt_name'] 	= TRUE;
+
 		$this->upload->initialize($config);
+		print_r($this->upload->data());die();
 		
 		if ( ! $this->upload->do_upload()){
 			$error = array('error' => $this->upload->display_errors());
-			echo $error;
+			$result['error'] = $error;
 		} else {
 			$data = [
 				'title'		=> $this->input->post('title'),
 				'content'	=> $this->input->post('content'),
-				'image'		=> md5($_FILES['image']['name']),
-				'created_by'=> $this->session->userdata('id'),
+				'image'		=> $this->upload->data('file_name'),
+				'created_by'=> 20,
 				'created_at'=> date('Y-m-d H:i:s'),
 			];
 			
@@ -112,18 +111,20 @@ class Api_news extends MX_Controller {
 
 	public function update()
 	{
-		if($_FILES['image']['name'] != NULL) {
-			$config['upload_path'] = './assets/images/news/';
-			$config['allowed_types'] = 'gif|jpg|png';
-			$config['max_size']  = '2048';
-			$config['max_width']  = '1024';
-			$config['max_height']  = '768';
+		if($this->upload->data() != NULL) {
+			$config['upload_path'] 	= './assets/images/news/';
+			$config['allowed_types'] 	= 'gif|jpg|png';
+			$config['max_size']  		= 2048;
+			$config['max_width']  		= 1024;
+			$config['max_height']  		= 768;
+			$config['encrypt_name'] 	= TRUE;
 			
 			$this->upload->initialize($config);
 			
 			if ( ! $this->upload->do_upload()){
 				$error = array('error' => $this->upload->display_errors());
-				echo $error;
+				$result['error'] = $error;
+				print_r($this->upload->data('file_name'));die();
 			} else {
 				$id 		= $this->input->post('id');
 				$path_image = $this->global->fetch(
@@ -138,12 +139,13 @@ class Api_news extends MX_Controller {
 				$data = [
 					'title'		=> $this->input->post('title'),
 					'content'	=> $this->input->post('content'),
-					'image'		=> md5($_FILES['image']['name']),
+					'image'		=> $this->upload->data('file_name'),
 				];
 
 				$this->global->update('news', $data, array('id' => $id));
 			}	
 		} else {
+				print_r('masuk sini? gak');die();
 			$id 	= $this->input->post('id');
 			$data = [
 				'title'		=> $this->input->post('title'),

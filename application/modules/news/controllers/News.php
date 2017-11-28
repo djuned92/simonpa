@@ -7,6 +7,7 @@ class News extends MX_Controller {
 	{
 		parent::__construct();
 		$this->load->library('curl');
+		$this->load->module('api/api_news');
 	}
 
 	public function index()
@@ -19,6 +20,38 @@ class News extends MX_Controller {
 		$this->template->set_layout('backend')
 						->title('Home - Gentella')
 						->build('v_news', $data);
+	}
+
+	public function add()
+	{
+		$this->form_validation->set_rules('title', 'Title', 'trim|required');
+		$this->form_validation->set_rules('content', 'Content', 'trim|required');
+		if ($this->form_validation->run() == TRUE) {
+			$this->api_news->add();
+		} else {
+			$this->template->set_layout('backend')
+							->title('Home - Gentella')
+							->build('f_news');	
+		}
+	}
+
+	public function update()
+	{
+		$id 			= $this->uri->segment(3);
+		$url 			= base_url() . 'api/api_news/get_by_id/' . $id;
+		$news 			= json_decode($this->curl->simple_get($url), TRUE);
+		$d['news'] 		= $news['news'];
+
+		$this->form_validation->set_rules('title', 'Title', 'trim|required');
+		$this->form_validation->set_rules('content', 'Content', 'trim|required');
+		if ($this->form_validation->run() == TRUE) {
+			$this->api_news->update();
+		} else {
+			$this->template->set_layout('backend')
+							->title('Home - Gentella')
+							->build('f_news', $d);	
+		}	
+		
 	}
 
 	public function insert_dummy()
