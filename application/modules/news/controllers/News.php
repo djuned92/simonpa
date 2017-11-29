@@ -17,6 +17,7 @@ class News extends MX_Controller {
 		$news 			= json_decode($json, TRUE);
 		$data['news'] 	= $news['news'];
 
+		// print_r($data);die();
 		$this->template->set_layout('backend')
 						->title('Home - Gentella')
 						->build('v_news', $data);
@@ -52,6 +53,11 @@ class News extends MX_Controller {
 							->build('f_news', $d);	
 		}	
 		
+	}
+
+	public function delete()
+	{
+		$this->api_news->delete();
 	}
 
 	public function insert_dummy()

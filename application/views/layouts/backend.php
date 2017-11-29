@@ -18,6 +18,8 @@
     <link href="<?=base_url('assets/vendors/nprogress/nprogress.css')?>" rel="stylesheet">
     <!-- color system -->
     <link href="<?=base_url('assets/vendors/color-system/color-system.css')?>" rel="stylesheet" type="text/css">
+    <!-- sweet alert -->
+    <link href="<?=base_url('assets/vendors/sweetalert/sweetalert.css')?>" rel="stylesheet" type="text/css">
     <!-- loader -->
     <link href="<?=base_url('assets/vendors/loader/loader.css')?>" rel="stylesheet" type="text/css">
     <link href="<?=base_url('assets/vendors/animate.css/animate.min.css')?>" rel="stylesheet" type="text/css">
@@ -91,6 +93,8 @@
     <script src="<?=base_url('assets/vendors/nprogress/nprogress.js')?>"></script>
     <!-- validator -->
     <script src="<?=base_url('assets/vendors/jquery-validation/jquery.validate.min.js')?>"></script>
+    <!-- sweet alert -->
+    <script src="<?=base_url('assets/vendors/sweetalert/sweetalert.min.js')?>"></script>
     <!-- Custom Theme Scripts -->
     <script src="<?=base_url('assets/js/custom.min.js')?>"></script>
     

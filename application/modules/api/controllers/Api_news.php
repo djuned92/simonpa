@@ -15,7 +15,7 @@ class Api_news extends MX_Controller {
 					'news', // table
 					'*', // select
 					NULL, // Join
-					array('is_published' => 1), // where
+					NULL, // where
 					array('id'=>'DESC'));	
 		
 		if($news->num_rows() > 0) {
@@ -32,13 +32,13 @@ class Api_news extends MX_Controller {
 		echo json_encode($result);	
 	}
 
-	public function get_limit()
+	public function get_news_published()
 	{
-		$news = $this->global->get_limit(
+		$news = $this->global->fetch(
 					'news', // table
-					3, // limit 
-					NULL, // start
-					array('is_published' => 1)); // where	
+					'*', // select
+					NULL, // Join
+					array('is_published'=>1)); // where	
 		
 		if($news->num_rows() > 0) {
 			$result['code'] 	= 200;
@@ -84,18 +84,19 @@ class Api_news extends MX_Controller {
 		$config['encrypt_name'] 	= TRUE;
 
 		$this->upload->initialize($config);
-		print_r($this->upload->data());die();
+		// print_r($this->upload->data());die();
 		
 		if ( ! $this->upload->do_upload()){
 			$error = array('error' => $this->upload->display_errors());
 			$result['error'] = $error;
 		} else {
 			$data = [
-				'title'		=> $this->input->post('title'),
-				'content'	=> $this->input->post('content'),
-				'image'		=> $this->upload->data('file_name'),
-				'created_by'=> 20,
-				'created_at'=> date('Y-m-d H:i:s'),
+				'title'			=> $this->input->post('title'),
+				'content'		=> $this->input->post('content'),
+				'image'			=> $_FILES['userfile']['name'],
+				'encrypt_image'	=> $this->upload->data('file_name'),
+				'created_by'	=> 20,
+				'created_at'	=> date('Y-m-d H:i:s'),
 			];
 			
 			$this->global->add('news', $data);
@@ -111,7 +112,7 @@ class Api_news extends MX_Controller {
 
 	public function update()
 	{
-		if($this->upload->data() != NULL) {
+		if($_FILES['userfile']['name'] != NULL) {
 			$config['upload_path'] 	= './assets/images/news/';
 			$config['allowed_types'] 	= 'gif|jpg|png';
 			$config['max_size']  		= 2048;
@@ -124,32 +125,34 @@ class Api_news extends MX_Controller {
 			if ( ! $this->upload->do_upload()){
 				$error = array('error' => $this->upload->display_errors());
 				$result['error'] = $error;
-				print_r($this->upload->data('file_name'));die();
 			} else {
 				$id 		= $this->input->post('id');
-				$path_image = $this->global->fetch(
+				$news 		= $this->global->fetch(
 								'news',
 								'*',
 								NULL,
 								array('id' => $id))
 								->row_array();
 
-				delete_files('./assets/images/news/' .$path_image['image']);
+				$path_image = './assets/images/news/' .$news['encrypt_image'];
+				unlink($path_image);
 				
 				$data = [
-					'title'		=> $this->input->post('title'),
-					'content'	=> $this->input->post('content'),
-					'image'		=> $this->upload->data('file_name'),
+					'title'			=> $this->input->post('title'),
+					'content'		=> $this->input->post('content'),
+					'image'			=> $_FILES['userfile']['name'],
+					'is_published'	=> $this->input->post('is_published'),
+					'encrypt_image'	=> $this->upload->data('file_name'),
 				];
 
 				$this->global->update('news', $data, array('id' => $id));
 			}	
 		} else {
-				print_r('masuk sini? gak');die();
 			$id 	= $this->input->post('id');
 			$data = [
-				'title'		=> $this->input->post('title'),
-				'content'	=> $this->input->post('content'),
+				'title'			=> $this->input->post('title'),
+				'content'		=> $this->input->post('content'),
+				'is_published'	=> $this->input->post('is_published'),
 			];
 
 			$this->global->update('news', $data, array('id' => $id));
@@ -162,23 +165,40 @@ class Api_news extends MX_Controller {
 		echo json_encode($result);
 	}
 
+	public function update_is_published() 
+	{
+		$id 	= $this->input->post('id');
+		$data = [
+			'is_published'	=> $this->input->post('is_published'),
+		];
+
+		$this->global->update('news', $data, array('id' => $id));
+
+		$result['code'] 	= 200;
+		$result['error']	= FALSE;
+		$result['message']	= 'News has been updated!';
+
+		echo json_encode($result);
+	}
+
 	public function delete()
 	{
 		$id 		= $this->input->post('id');
-		$path_image = $this->global->fetch(
+		$news 		= $this->global->fetch(
 						'news',
 						'*',
 						NULL,
 						array('id' => $id))
 						->row_array();
 
-		delete_files('./assets/images/news/' .$path_image['image']);
-
+		$path_image = './assets/images/news/' .$news['encrypt_image'];
+		unlink($path_image);	
+		
 		if($id != NULL || $id != '') {
 			$result['code'] 	= 200;
 			$result['error']	= FALSE;
 			$result['message']	= 'News has been deleted!';
-			$this->global->delete('mytable', array('id' => $id));
+			$this->global->delete('news', array('id' => $id));
 		} else {
 			$result['code'] 	= 404;
 			$result['error']	= TRUE;

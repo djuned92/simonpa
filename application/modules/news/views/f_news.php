@@ -66,7 +66,7 @@
                         <div class="col-md-9 col-sm-9 col-xs-12">
                             <input type="file" name="userfile" class="form-control" id="image">
                             <br/>
-                            <img class="img img-rounded" id="preview-image" src="<?=base_url('assets/images/news/')?><?=isset($news['image'])?$news['image']:'no-image.png';?>" style="width: 120px;height: 120px;">    
+                            <img class="img img-rounded" id="preview-image" src="<?=base_url('assets/images/news/')?><?=isset($news['encrypt_image'])?$news['encrypt_image']:'no-image.png';?>" style="width: 120px;height: 120px;">    
                         </div>
                     </div>
                     
@@ -131,9 +131,12 @@
                 content: {
                     required: true
                 },
-                image: {
-                    required: true
-                }
+                
+                <?php if($this->uri->segment(2) == 'add'): ?>
+                    image: {
+                        required: true
+                    }
+                <?php endif ?>
             },
             submitHandler: function(form) {
                 var form = $('#form_news')[0],
@@ -156,7 +159,16 @@
                     timeout: 600000,
                     beforeSend: function () {},
                     success: function(r) {
-                        alert(r.error);
+                        if(r.error == false) {
+                            swal({
+                              title: "<?=($this->uri->segment(2) == 'add') ? 'Add': 'Update';?>",
+                              text: r.message,
+                              type: "success",
+                            });
+                            // setTimeout(function() {
+                            //     window.location.href = "<?=base_url('news')?>";  
+                            // }, 2000);
+                        }
                     }
                 });
             }

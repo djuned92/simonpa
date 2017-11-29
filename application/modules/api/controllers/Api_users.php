@@ -6,11 +6,11 @@ class Api_users extends MX_Controller {
 	public function get_all()
 	{
 		$users =  $this->global->fetch(
-					'users', // table
-					'*', // select
-					NULL, // Join
+					'users as u', // table
+					'u.username, p.*', // select
+					array('profiles as p'=>'u.id = p.user_id'), // Join
 					NULL, // where
-					array('id'=>'DESC'));		
+					array('p.id'=>'DESC'));		
 		
 		if($users->num_rows() > 0) {
 			$result['code'] 	= 200;
@@ -104,12 +104,22 @@ class Api_users extends MX_Controller {
 		$data = [
 			'username'	=> $username,
 			'password'	=> $password_hash,
-			'role'		=> 1,
-			'created_at'=> date('Y-m-d H:i:s')
+			'role'		=> 2,
+			'created_at'=> date('Y-m-d H:i:s'),
 		];
 
-
 		$user_id = $this->global->add('users', $data, TRUE);
+
+		$data_profile = [
+			'user_id'	=> $user_id,
+			'fullname'	=> $this->input->post('fullname'),
+			'address'	=> $this->input->post('address'),
+			'phone'		=> $this->input->post('phone'),
+			'gender'	=> $this->input->post('gender'),
+			'created_at'=> date('Y-m-d H:i:s'),
+		];
+
+		$this->global->add('profiles', $data_profile);
 		
 		$gaugeId = ['TMA00001','TMA00002','TMA00003','TMA00004','TMA00005','TMA00006',
 					'TMA00007','TMA00008','TMA00009','TMA00010','TMA00011','TMA00012'];
