@@ -48,8 +48,8 @@
                             <th width="3%">#</th>
                             <th width="15%">Image</th>
                             <th width="25%">Title</th>
-                            <th width="42%">Content</th>
-                            <th width="10%">Is Published</th>
+                            <th width="39%">Content</th>
+                            <th width="13%">Is Published</th>
                             <th width="5%">Action</th>
                         </tr>
                     </thead>
