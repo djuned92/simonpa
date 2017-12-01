@@ -1,6 +1,6 @@
 <div class="page-title">
     <div class="title_left">
-        <h3><?=($this->uri->segment(2) == 'add') ? 'Add ' : 'Edit '?>News</h3>
+        <h3><?=($this->uri->segment(2) == 'add') ? 'Add ' : 'Edit '?>User</h3>
     </div>
     <div class="title_right">
         <div class="col-md-5 col-sm-5 col-xs-12 form-group pull-right top_search">
@@ -18,7 +18,7 @@
     <div class="col-md-12 col-sm-12 col-xs-12">
         <div class="x_panel">
             <div class="x_title">
-                <h2><?=($this->uri->segment(2) == 'add') ? 'Add ' : 'Edit '?>News</h2>
+                <h2><?=($this->uri->segment(2) == 'add') ? 'Add ' : 'Edit '?>User</h2>
                 <ul class="nav navbar-right panel_toolbox">
                     <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
                     </li>
@@ -39,41 +39,73 @@
                 <div class="clearfix"></div>
             </div>
             <div class="x_content">
-                <form class="form-horizontal form-label-left" id="form_news" method="post" enctype="multipart/form-data">
+                <form class="form-horizontal form-label-left" id="form_user" method="post" enctype="multipart/form-data">
                     
                     <?php if($this->uri->segment(2) == 'update'): ?>
-                    <input type="hidden" name="id" value="<?=$news['id']?>">
+                    <input type="hidden" name="id" value="<?=$user['id']?>">
                     <?php endif ?>
 
+                    <h4>User Account</h4>
                     <div class="form-group">
-                        <label class="control-label col-md-2 col-sm-2 col-xs-12">Title <span class="required">*</span></label>
+                        <label class="control-label col-md-2 col-sm-2 col-xs-12">Username <span class="required">*</span></label>
                         <div class="col-md-9 col-sm-9 col-xs-12">
-                            <input type="text" name="title" class="form-control" placeholder="Title ..." value="<?=isset($news['title'])?$news['title']:set_value('title');?>">
-                        </div>
-                    </div>
-                    
-                    <div class="form-group">
-                        <label class="control-label col-md-2 col-sm-2 col-xs-12">Content <span class="required">*</span>
-                        </label>
-                        <div class="col-md-9 col-sm-9 col-xs-12">
-                            <textarea class="form-control" name="content" rows="3" placeholder='Content ...'><?=isset($news['content'])?$news['content']:set_value('content');?></textarea>
+                            <input type="text" name="username" class="form-control" placeholder="Username ..." value="<?=isset($user['username'])?$user['username']:set_value('username');?>">
                         </div>
                     </div>
 
                     <div class="form-group">
-                        <label class="control-label col-md-2 col-sm-2 col-xs-12">Image <?=($this->uri->segment(2) == 'add') ? '<span class="required">*</span>':''?>
-                        </label>
+                        <label class="control-label col-md-2 col-sm-2 col-xs-12">Password <?=($this->uri->segment(2) == 'add') ? '<span class="required">*</span>':''?></label>
                         <div class="col-md-9 col-sm-9 col-xs-12">
-                            <input type="file" name="userfile" class="form-control" id="image">
-                            <br/>
-                            <img class="img img-rounded" id="preview-image" src="<?=base_url('assets/images/news/')?><?=isset($news['encrypt_image'])?$news['encrypt_image']:'no-image.png';?>" style="width: 120px;height: 120px;">    
+                            <input type="password" name="password" id="password" class="form-control" placeholder="Password ..." value="">
                         </div>
                     </div>
-                    
+
+                    <div class="form-group">
+                        <label class="control-label col-md-2 col-sm-2 col-xs-12">Confirm Password <?=($this->uri->segment(2) == 'add') ? '<span class="required">*</span>':''?></label>
+                        <div class="col-md-9 col-sm-9 col-xs-12">
+                            <input type="password" name="confirm_password" class="form-control" placeholder="Confirm Password ..." value="">
+                        </div>
+                    </div>
+
+                    <hr>
+                    <h4>User Profile</h4>
+                    <div class="form-group">
+                        <label class="control-label col-md-2 col-sm-2 col-xs-12">Fullname <span class="required">*</span></label>
+                        <div class="col-md-9 col-sm-9 col-xs-12">
+                            <input type="text" name="fullname" class="form-control" placeholder="Fullname ..." value="<?=isset($user['fullname'])?$user['fullname']:set_value('fullname');?>">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label col-md-2 col-sm-2 col-xs-12">Address <span class="required">*</span></label>
+                        <div class="col-md-9 col-sm-9 col-xs-12">
+                            <textarea class="form-control" name="address" rows="3" placeholder='Address ...'><?=isset($user['address'])?$user['address']:set_value('address');?></textarea>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label col-md-2 col-sm-2 col-xs-12">Phone <span class="required">*</span></label>
+                        <div class="col-md-9 col-sm-9 col-xs-12">
+                            <input type="text" name="phone" class="form-control has-feedback-left" placeholder="Phone ..." value="<?=isset($user['phone'])?$user['phone']:set_value('phone');?>">
+                            <span class="form-control-feedback left" aria-hidden="true">+62 </span>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label col-md-2 col-sm-2 col-xs-12">Gender <span class="required">*</span></label>
+                        <div class="col-md-9 col-sm-9 col-xs-12 radio">
+                            <label>
+                                <input type="radio" name="gender" value="1" <?=($user['gender'] == 1) ? 'checked':'';?>>
+                                <i class="fa fa-male"></i> Male
+                            </label>
+                            <label>
+                                <input type="radio" name="gender" value="2" <?=($user['gender'] == 2) ? 'checked':'';?>>
+                                <i class="fa fa-female"></i> Female
+                            </label>                        
+                        </div>
+                    </div>
+
                     <div class="ln_solid"></div>
                     <div class="form-group">
                         <div class="col-md-9 col-sm-9 col-xs-12 col-md-offset-2">
-                            <a href="<?=base_url('news')?>">
+                            <a href="<?=base_url('users')?>">
                                 <button type="button" class="btn btn-primary">Back</button>
                             </a>
                             <button type="submit" class="btn btn-success" id="save">Save</button>
@@ -123,29 +155,42 @@
             }
         });
 
-        $('#form_news').validate({
+        $('#form_user').validate({
             rules: {
-                title: {
+                username: {
                     required: true
                 },
-                content: {
-                    required: true
-                },
-                
                 <?php if($this->uri->segment(2) == 'add'): ?>
-                    image: {
-                        required: true
-                    }
+                    password: {
+                        required: true,
+                        minlength: 8,
+                        maxlength: 12,
+                    },
+                    confirm_password: {
+                        equalTo: "#password",
+                    },
                 <?php endif ?>
+                fullname: {
+                    required: true
+                },
+                address: {
+                    required: true
+                },
+                phone: {
+                    required: true
+                },
+                gender: {
+                    required: true
+                }
             },
             submitHandler: function(form) {
                 // form.submit();
-                var form = $('#form_news')[0],
+                var form = $('#form_user')[0],
                     data = new FormData(form);
                 <?php if($this->uri->segment(2) == 'add') : ?>
-                    var this_url = "<?=base_url('news/add')?>";
+                    var this_url = "<?=base_url('users/add')?>";
                 <?php else : ?>
-                    var this_url = "<?=base_url('news/update')?>";
+                    var this_url = "<?=base_url('users/update')?>";
                 <?php endif ?> 
                 $.ajax({
                     type: 'post',
@@ -167,7 +212,7 @@
                               type: "success",
                             });
                             setTimeout(function() {
-                                window.location.href = "<?=base_url('news')?>";  
+                                window.location.href = "<?=base_url('users')?>";  
                             }, 2000);
                         }
                     }

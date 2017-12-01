@@ -7,7 +7,7 @@ class Api_users extends MX_Controller {
 	{
 		$users =  $this->global->fetch(
 					'users as u', // table
-					'u.username, p.*', // select
+					'u.id, u.username, p.fullname, p.address, p.gender, p.phone, p.created_at, p.updated_at', // select
 					array('profiles as p'=>'u.id = p.user_id'), // Join
 					NULL, // where
 					array('p.id'=>'DESC'));		
@@ -25,15 +25,13 @@ class Api_users extends MX_Controller {
 		echo json_encode($result, JSON_NUMERIC_CHECK);	
 	}
 
-	public function get_by_id()
+	public function get_by_id($id)
 	{
-		$id = $this->input->post('id');
-
 		$user = $this->global->fetch(
-					'users',
+					'users as u',
 					'*',
-					NULL,
-					array('id' => $id));
+					array('profiles as p'=>'u.id = p.user_id'),
+					array('u.id' => $id));
 		
 		if($user->num_rows() > 0) {
 			$result['code'] 	= 200;
@@ -150,7 +148,9 @@ class Api_users extends MX_Controller {
 
 	public function update()
 	{
-		$id 		= $this->input->post('id');
+		$this->db->trans_begin();
+
+		$id_user 	= $this->input->post('id');
 		$username 	= $this->input->post('username');
 		$password 	= $this->input->post('password');
 		
@@ -166,12 +166,30 @@ class Api_users extends MX_Controller {
 			'role'		=> 1
 		];
 
-		$this->global->update('users', $data, array('id' => $id));
-			
-		$result['code'] 	= 200;
-		$result['error']	= FALSE;
-		$result['message']	= 'User has been updated!';
-	
+		$this->global->update('users', $data, array('id' => $id_user));
+		
+		$data_profile = [
+			'fullname'	=> $this->input->post('fullname'),
+			'address'	=> $this->input->post('address'),
+			'phone'		=> $this->input->post('phone'),
+			'gender'	=> $this->input->post('gender'),
+			'created_at'=> date('Y-m-d H:i:s'),
+		];
+
+		$this->global->update('profiles', $data_profile, array('id' => $id_user));
+
+		if ($this->db->trans_status() === FALSE) {
+            $this->db->trans_rollback();
+            $result['code']		= 501;
+			$result['error']	= FALSE;
+			$result['message']	= 'User failed to updated!';
+        } else {
+        	$this->db->trans_commit();
+			$result['code'] 	= 200;
+			$result['error']	= FALSE;
+			$result['message']	= 'User has been updated!';
+        }
+
 		echo json_encode($result);
 	}
 
@@ -182,7 +200,7 @@ class Api_users extends MX_Controller {
 		if($id != NULL || $id != '') {
 			$result['code'] 	= 200;
 			$result['error']	= FALSE;
-			$result['message']	= 'user has been deleted!';
+			$result['message']	= 'User has been deleted!';
 			$this->global->delete('users', array('id' => $id));
 		} else {
 			$result['code'] 	= 404;

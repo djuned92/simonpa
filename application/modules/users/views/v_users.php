@@ -22,21 +22,13 @@
         <div class="x_panel">
             <div class="x_title">
                 <h2>Users</h2>
-                <ul class="nav navbar-right panel_toolbox">
-                    <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
-                    </li>
-                    <li class="dropdown">
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><i class="fa fa-wrench"></i></a>
-                        <ul class="dropdown-menu" role="menu">
-                            <li><a href="#">Settings 1</a>
-                            </li>
-                            <li><a href="#">Settings 2</a>
-                            </li>
-                        </ul>
-                    </li>
-                    <li><a class="close-link"><i class="fa fa-close"></i></a>
-                    </li>
-                </ul>
+                <div class="navbar-right">
+                    <a href="<?=base_url('users/add')?>">
+                        <button type="button" class="btn btn-sm btn-primary">
+                            <i class="fa fa-plus"></i> Add
+                        </button>
+                    </a>
+                </div>
                 <div class="clearfix"></div>
             </div>
             <div class="x_content">
@@ -45,10 +37,11 @@
                         <tr>
                             <th width="3%">#</th>
                             <th width="15%">Username</th>
-                            <th width="25%">Fullname</th>
-                            <th width="37%">Address</th>
+                            <th width="20%">Fullname</th>
+                            <th width="34%">Address</th>
                             <th width="10%">Gender</th>
-                            <th width="10%">Phone</th>
+                            <th width="13%">Phone</th>
+                            <th width="5%">Action</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -58,8 +51,30 @@
                             <td><?=$value['username']?></td>
                             <td><?=$value['fullname']?></td>
                             <td><?=$value['address']?></td>
-                            <td><?=($value['gender'] == 1) ? 'Male':'Female';?></td>
-                            <td><?=$value['phone']?></td>
+                            <td align="center"><?=($value['gender'] == 1) ? '<i class="fa fa-male"></i>':'<i class="fa fa-female"></i>';?></td>
+                            <td>+62 <?=$value['phone']?></td>
+                            <td>
+                                <ul style="list-style: none;padding-left: 0px;padding-right: 0px; text-align: center;">
+                                    <li class="dropdown">
+                                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+                                            <i class="fa fa-bars" style="font-size: large;"></i>
+                                        </a>
+                                        <ul class="dropdown-menu dropdown-menu-right" style="right: 0; left: auto;">
+                                            <li>
+                                                <a href="<?=base_url('users/update/'.$value['id'])?>">
+                                                    <i class="fa fa-pencil"></i> Edit
+                                                </a>
+                                            </li>
+                                            <li class="divider"></li>
+                                            <li>
+                                                <a href="#" class="btn-delete" data-id="<?=$value['id']?>">
+                                                    <i class="fa fa-trash"></i> Delete
+                                                </a>
+                                            </li>
+                                        </ul>
+                                    </li>
+                                </ul>
+                            </td>
                         </tr>
                         <?php endforeach ?>
                     </tbody>
@@ -76,4 +91,42 @@
     $(document).ready(function() {
         $('#tbl-users').DataTable();
     });
+
+    $('#tbl-users').delegate('a.btn-delete', 'click', function(e){
+            e.preventDefault();
+            var id = $(this).data('id');
+            swal({
+                title: "Confirm Delete Data",
+                text: "Are you sure delete this data?",
+                type: "warning",
+                showCancelButton: true,
+                confirmButtonClass: 'btn-danger',
+                confirmButtonText: 'Delete',
+                cancelButtonText: "Cancel",
+                closeOnConfirm: false,
+                closeOnCancel: false
+            },
+            function(isConfirm){
+                if (isConfirm){
+                    $.ajax({
+                        type: "post",
+                        dataType: "json",
+                        url: "<?=base_url('users/delete')?>",
+                        data: {id: id},
+                        beforeSend: function() {},
+                        success: function(r) {
+                            if(r.error == false) {
+                                swal(r.message, "", r.type);
+                                setTimeout(function() {
+                                    window.location.href = "<?=base_url('users')?>";  
+                                }, 2000);
+                            }
+                        },
+                        error: function(e) {}
+                    });
+                } else {
+                    swal("Failure", "Delete Cancel", "error");
+                }
+            });
+        });
 </script>

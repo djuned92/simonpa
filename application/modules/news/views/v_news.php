@@ -24,21 +24,13 @@
         <div class="x_panel">
             <div class="x_title">
                 <h2>News</h2>
-                <ul class="nav navbar-right panel_toolbox">
-                    <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
-                    </li>
-                    <li class="dropdown">
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><i class="fa fa-wrench"></i></a>
-                        <ul class="dropdown-menu" role="menu">
-                            <li><a href="#">Settings 1</a>
-                            </li>
-                            <li><a href="#">Settings 2</a>
-                            </li>
-                        </ul>
-                    </li>
-                    <li><a class="close-link"><i class="fa fa-close"></i></a>
-                    </li>
-                </ul>
+                <div class="navbar-right">
+                    <a href="<?=base_url('news/add')?>">
+                        <button type="button" class="btn btn-sm btn-primary">
+                            <i class="fa fa-plus"></i> Add
+                        </button>
+                    </a>
+                </div>
                 <div class="clearfix"></div>
             </div>
             <div class="x_content">
@@ -120,38 +112,38 @@
             e.preventDefault();
             var id = $(this).data('id');
             swal({
-                    title: "Confirm Delete Data",
-                    text: "Are you sure delete this data?",
-                    type: "warning",
-                    showCancelButton: true,
-                    confirmButtonClass: 'btn-danger',
-                    confirmButtonText: 'Delete',
-                    cancelButtonText: "Cancel",
-                    closeOnConfirm: false,
-                    closeOnCancel: false
-                },
-                function(isConfirm){
-                    if (isConfirm){
-                        $.ajax({
-                            type: "post",
-                            dataType: "json",
-                            url: "<?=base_url('news/delete')?>",
-                            data: {id: id},
-                            beforeSend: function() {},
-                            success: function(r) {
-                                if(r.error == false) {
-                                    swal(r.message, "", r.type);
-                                    setTimeout(function() {
-                                        window.location.href = "<?=base_url('news')?>";  
-                                    }, 2000);
-                                }
-                            },
-                            error: function(e) {}
-                        });
-                    } else {
-                        swal("Failure", "Delete Cancel", "error");
-                    }
-                });
+                title: "Confirm Delete Data",
+                text: "Are you sure delete this data?",
+                type: "warning",
+                showCancelButton: true,
+                confirmButtonClass: 'btn-danger',
+                confirmButtonText: 'Delete',
+                cancelButtonText: "Cancel",
+                closeOnConfirm: false,
+                closeOnCancel: false
+            },
+            function(isConfirm){
+                if (isConfirm){
+                    $.ajax({
+                        type: "post",
+                        dataType: "json",
+                        url: "<?=base_url('news/delete')?>",
+                        data: {id: id},
+                        beforeSend: function() {},
+                        success: function(r) {
+                            if(r.error == false) {
+                                swal(r.message, "", r.type);
+                                setTimeout(function() {
+                                    window.location.href = "<?=base_url('news')?>";  
+                                }, 2000);
+                            }
+                        },
+                        error: function(e) {}
+                    });
+                } else {
+                    swal("Failure", "Delete Cancel", "error");
+                }
+            });
         });
     })
 

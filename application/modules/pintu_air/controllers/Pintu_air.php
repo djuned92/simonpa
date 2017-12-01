@@ -120,17 +120,19 @@ class Pintu_air extends MX_Controller {
 
 			$user_id = implode(',', $id);
 			$measureDateTime = $day2;
-			$query = "SELECT `u`.`username`, `pa`.`gaugeNameId`, `pa`.`measureDateTime`, `pa`.`warningNameId`,`upa`.`user_id`, `upa`.`gaugeId`
+	
+			$result['message'] 					= 'Data berhasil disimpan';
+			for ($i=0; $i < count($id) ; $i++) { 
+				$query = "SELECT `u`.`username`, `pa`.`gaugeNameId`, `pa`.`measureDateTime`, `pa`.`warningNameId`,`upa`.`user_id`, `upa`.`gaugeId`
 						FROM `user_pintu_air` as `upa`
 						JOIN `users` as `u` ON `upa`.`user_id` = `u`.`id`
 						JOIN `pintu_air` as `pa` ON `upa`.`gaugeId` = `pa`.`gaugeId`
-						WHERE `upa`.`user_id` IN ($user_id)
+						WHERE `upa`.`user_id` = '$id[$i]'
 						AND `upa`.`is_active` = 1
 						AND `pa`.`measureDateTime` = '$measureDateTime'  
 						ORDER BY `upa`.`user_id` ASC";
-	
-			$result['message'] 					= 'Data berhasil disimpan';
-			$result['status_user_pintu_air']	= $this->db->query($query)->result_array();
+				$result['status_user_pintu_air']	= $this->db->query($query)->result_array()[$i];
+			}
 		}
 		echo json_encode($result);
 	}
