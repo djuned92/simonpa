@@ -7,7 +7,7 @@ class Api_users extends MX_Controller {
 	{
 		$users =  $this->global->fetch(
 					'users as u', // table
-					'u.id, u.username, p.fullname, p.address, p.gender, p.phone, p.created_at, p.updated_at', // select
+					'u.id, u.username, u.device_token, p.fullname, p.address, p.gender, p.phone, p.created_at, p.updated_at', // select
 					array('profiles as p'=>'u.id = p.user_id'), // Join
 					NULL, // where
 					array('p.id'=>'DESC'));		
@@ -29,7 +29,7 @@ class Api_users extends MX_Controller {
 	{
 		$user = $this->global->fetch(
 					'users as u',
-					'*',
+					'u.id, u.username, p.fullname, p.address, p.gender, p.phone, p.created_at, p.updated_at',
 					array('profiles as p'=>'u.id = p.user_id'),
 					array('u.id' => $id));
 		
@@ -163,7 +163,6 @@ class Api_users extends MX_Controller {
 		$data = [
 			'username'	=> $username,
 			'password'	=> $password_hash,
-			'role'		=> 1
 		];
 
 		$this->global->update('users', $data, array('id' => $id_user));
@@ -202,6 +201,7 @@ class Api_users extends MX_Controller {
 			$result['error']	= FALSE;
 			$result['message']	= 'User has been deleted!';
 			$this->global->delete('users', array('id' => $id));
+			$this->global->delete('user_pintu_air', array('user_id' => $id));
 		} else {
 			$result['code'] 	= 404;
 			$result['error']	= TRUE;

@@ -1,7 +1,14 @@
 {  
    "reports":[  
       {  
-         "gaugeId":"TMA00001",
+         // keluaran notif
+         header as title nama pintu air 
+         body as message warning name id
+         id
+         lat
+         lng
+
+         "gaugeId":"TMA00001", 
          "measureDateTime":"2017-11-22T09:00",
          "depth":40,
          "deviceId":"DIMS",
@@ -10,11 +17,11 @@
          "reportType":"2",
          "level":9,
          "notificationFlag":0,
-         "gaugeNameId":"Bendung Katulampa",
+         "gaugeNameId":"Bendung Katulampa", // header
          "gaugeNameEn":"Katulampa Weir",
          "gaugeNameJp":"Katulampa 堰",
          "warningLevel":4,
-         "warningNameId":"SIAGA IV ",
+         "warningNameId":"SIAGA IV ", // body
          "warningNameEn":"Safe    ",
          "warningNameJp":"安全",
          "comment":"Peringatan: SIAGA IV\nKetinggian air (cm): 40\nLokasi: Bendung Katulampa\n\nWarning Level: Safe\nWater Level (cm): 40\nLocation: Katulampa Weir\n\n警戒レベル: 安全\n水位 (cm): 40\n場所: Katulampa 堰"

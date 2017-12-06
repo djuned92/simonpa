@@ -92,11 +92,11 @@
                         <label class="control-label col-md-2 col-sm-2 col-xs-12">Gender <span class="required">*</span></label>
                         <div class="col-md-9 col-sm-9 col-xs-12 radio">
                             <label>
-                                <input type="radio" name="gender" value="1" <?=($user['gender'] == 1) ? 'checked':'';?>>
+                                <input type="radio" name="gender" value="1" <?=(isset($user['gender']) == 1) ? 'checked':'';?>>
                                 <i class="fa fa-male"></i> Male
                             </label>
                             <label>
-                                <input type="radio" name="gender" value="2" <?=($user['gender'] == 2) ? 'checked':'';?>>
+                                <input type="radio" name="gender" value="2" <?=(isset($user['gender']) == 2) ? 'checked':'';?>>
                                 <i class="fa fa-female"></i> Female
                             </label>                        
                         </div>
