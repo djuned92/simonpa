@@ -172,7 +172,6 @@ class Pintu_air extends MX_Controller {
 	{
 		$device_token = [
 			0 => 'eZ-LoIk0Xpw:APA91bENuXIAOTOeUHpdfvMq5dDuSFrcEASUuSnmI0PUcc2wMID0H9wz9NcO_y2zs3srotbykY1HFKxbC2-Ag7tmgzeLecjcQZQmkJi7BQdwhhvuFiDgCAEz7as0i56CCXDwBDFyod3X',
-			1 => 'e61Id6z8oz8:APA91bEwQsH1YgepWj33fNAIoyD59JO8zuDNznsWQEOLPy2zKktgXrvbE3DiYCi6tTMGVqsk44sGzwIwgDSlQtNGifF4UmaRRHWPwEkWyJEUy2hcyhkC6MApzjPHyRX536T-ZFU9UEMc',
 		];
 
 		// print_r($device_token[1]);die();

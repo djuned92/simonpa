@@ -8,6 +8,27 @@ class Api_pintu_air extends MX_Controller {
 		parent::__construct();
 	}
 
+	public function get_by_id($id)
+	{
+		$pintu_air = $this->global->fetch(
+					'pintu_air',
+					'*',
+					NULL,
+					array('id' => $id));
+		
+		if($pintu_air->num_rows() > 0) {
+			$result['code'] 	= 200;
+			$result['error']	= FALSE;
+			$result['message']	= 'Success';
+			$result['pintu_air'] = $pintu_air->row_array();
+		} else {
+			$result['code'] 	= 404;
+			$result['error']	= TRUE;
+			$result['message']	= 'Not found pintu_air';
+		}
+		echo json_encode($result, JSON_NUMERIC_CHECK); 
+	}
+
 	public function json_chart()
 	{
 		$name = ['Pintu Air'];
