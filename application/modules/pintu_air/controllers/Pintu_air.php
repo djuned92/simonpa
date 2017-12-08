@@ -120,7 +120,7 @@ class Pintu_air extends MX_Controller {
 		// if($day == $day2) {
 		// 	$result['message'] = 'Data sudah ada';
 		// } else {
-			// $this->global->add_batch('pintu_air', $data);
+		// 	$this->global->add_batch('pintu_air', $data);
 
 			$measureDateTime = $day2;
 	
@@ -138,23 +138,25 @@ class Pintu_air extends MX_Controller {
 						AND `pa`.`measureDateTime` = '$measureDateTime'  
 						ORDER BY `upa`.`user_id` ASC";
 				$user_pintu_air[] = $this->db->query($query)->result_array();
-				// print_r($this->db->last_query());die();
 			}
 
 
 			$device_token 	= [];
-			$title 			= [];
-			$body 			= [];
+			$title			= [];
+			$body			= [];
+			$lat 			= [];					
+			$lng 			= [];					
+			$notification_id= [];					
+			$date_pa 		= [];					
 			for ($j=0; $j < count($id); $j++) { 
 				foreach ($user_pintu_air[$j] as $key => $value) {
-					$title[] = $value['gaugeNameId'];
+					$title[] 		= $value['gaugeNameId'];
 					$device_token[] = $value['device_token'];
-					$content['measureDateTime'] = $value['measureDateTime'];
-					$content['warningNameId'] = $value['warningNameId'];
-					$content[] = $value['lat'];
-					$content[] = $value['lng'];
-					$content[] = $value['id'];
-					$body[] = $content;
+					$body[]			= $value['warningNameId'] .' '. date_format(date_create($value['measureDateTime']), 'H:i d/m/Y');
+					$lat[] 			= $value['lat'];		
+					$lng[] 			= $value['lng'];		
+					$notification_id[] = $value['id'];		
+					$date_pa[] 		= $value['measureDateTime'];		
 
 				}
 			}
@@ -162,6 +164,10 @@ class Pintu_air extends MX_Controller {
 			for ($k=0; $k < count($title) ; $k++) { 
 				$this->push->setTitle( $title[$k] )
                		->setbody( $body[$k] )
+               		->setLat ( $lat[$k] )
+               		->setLng ( $lng[$k] )
+               		->setNotificationId ( $notification_id[$k] )
+               		->setDate ( $date_pa[$k] )
 		        	->fire( $device_token[$k] )[$k];
 			}
 		// }
@@ -172,6 +178,7 @@ class Pintu_air extends MX_Controller {
 	{
 		$device_token = [
 			0 => 'eZ-LoIk0Xpw:APA91bENuXIAOTOeUHpdfvMq5dDuSFrcEASUuSnmI0PUcc2wMID0H9wz9NcO_y2zs3srotbykY1HFKxbC2-Ag7tmgzeLecjcQZQmkJi7BQdwhhvuFiDgCAEz7as0i56CCXDwBDFyod3X',
+			1 => 'cHZ0GF7Rjl4:APA91bHp4VqXJg09Eq-ywlHOoeWpI_0yCkQdoesGNwR-_ZVbeFlD8yvKqJDvh1VMUc2w0-DLxXhAFGhwBUU6rtTDfYJLLVsJFcWpiUqCLIeUqVrR_hwF3I47-KcZ8qP2xwdCs9ocrb-w',
 		];
 
 		// print_r($device_token[1]);die();

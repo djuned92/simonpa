@@ -9,6 +9,16 @@ class Push {
     public $title = '';
     // corpo
     public $body = '';
+    
+    /*
+    *custom
+    */
+    public $lat = '';
+    public $lng = '';
+    public $notification_id = '';
+    public $date = '';
+    // end custom
+
     // imagem
     public $image = null;
     // url
@@ -18,17 +28,43 @@ class Push {
         // pega a instancia do ci
         $this->ci =& get_instance();
     }
-    // seta o titulo
+    // set a title
     public function setTitle( $title ) {
         $this->title = $title;
         return $this;
     }
-    // seta o corpo
+    // set a body
     public function setBody( $body ) {
         $this->body = $body;
         return $this;
     }
-    // seta a imagem
+
+    /*
+    * custom
+    */
+    // set a lat
+    public function setLat( $lat ) {
+        $this->lat = $lat;
+        return $this;
+    }
+
+    public function setLng( $lng ) {
+        $this->lng = $lng;
+        return $this;
+    }
+
+    public function setNotificationId( $notification_id ) {
+        $this->notification_id = $notification_id;
+        return $this;
+    }
+
+    public function setDate( $date ) {
+        $this->date = $date;
+        return $this;
+    }
+    // end custom
+
+    // set a image
     public function setImage( $image ) {
         $this->image = $image;
         return $this;
@@ -39,10 +75,14 @@ class Push {
         $body = [
             "to" => ( $idCelular ) ? $idCelular : "/topics/all",
             "notification" => [	
-                "title"        => $this->title, 
-                "body"         => $this->body, 
-                "sound"        => "default", 
-                "icon"         => "notify"
+                "title"             => $this->title, 
+                "body"              => $this->body,
+                "lat"               => $this->lat, 
+                "lng"               => $this->lng, 
+                "notification_id"   => $this->notification_id, 
+                "date"              => $this->date, 
+                "sound"             => "default", 
+                "icon"              => "notify"
             ],
             "data" => [
                 "message" => $this->body

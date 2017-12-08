@@ -64,9 +64,9 @@ class Api_users extends MX_Controller {
 			$result['message']	= 'Success';
 			$result['user_pintu_air'] 	= $user_pintu_air->result_array();
 		} else {
-			$result['code'] 	= 202;
+			$result['code'] 	= 404;
 			$result['error']	= FALSE;
-			$result['message']	= 'No content user pintu air';
+			$result['message']	= 'Not found user pintu air';
 		}
 		echo json_encode($result, JSON_NUMERIC_CHECK);
 	}
