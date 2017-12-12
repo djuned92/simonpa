@@ -71,6 +71,23 @@ class Api_users extends MX_Controller {
 		echo json_encode($result, JSON_NUMERIC_CHECK);
 	}
 
+	public function update_user_pintu_air()
+	{
+		$id 		= $this->input->post('id');
+		$is_active 	= $this->input->post('is_active');
+		$data = [
+			'is_active'	=> $is_active,
+		];
+
+		$this->global->update('user_pintu_air', $data, array('id'=>$id));
+
+		$result['code'] 	= 200;
+		$result['error']	= FALSE;
+		$result['message']	= 'User pintu air has been updated!';
+		
+		echo json_encode($result, JSON_NUMERIC_CHECK);
+	}
+
 	public function get_status_user_pintu_air()
 	{
 		$user_id = implode(',', [20,21]);

@@ -40,17 +40,28 @@ class Api_news extends MX_Controller {
 					NULL, // Join
 					array('is_published'=>1)); // where	
 		
+		$data = [];
+		foreach ($news->result_array() as $key) {
+			$value['id'] 			= $key['id'];
+			$value['title'] 		= $key['title'];
+			$value['content'] 		= $key['content'];
+			$value['created_at'] 	= $key['created_at'];
+			$value['url_image']		= base_url() .'assets/images/news/'. $key['encrypt_image'];
+			$data[]					= $value;
+
+		}
+
 		if($news->num_rows() > 0) {
 			$result['code'] 	= 200;
 			$result['error']	= FALSE;
 			$result['message']	= 'Success';
-			$result['news'] 	= $news->result_array();
+			$result['news'] 	= $data;
 		} else {
 			$result['code'] 	= 204;
 			$result['error']	= FALSE;
 			$result['message']	= 'No content news';
 		}
-		echo json_encode($result); 
+		echo json_encode($result, JSON_UNESCAPED_SLASHES); 
 	}
 
 	public function get_by_id($id)
@@ -61,17 +72,24 @@ class Api_news extends MX_Controller {
 					NULL,
 					array('id' => $id));
 		
+		$value['id'] 			= $news->row_array()['id'];
+		$value['title'] 		= $news->row_array()['title'];
+		$value['content'] 		= $news->row_array()['content'];
+		$value['created_at'] 	= $news->row_array()['created_at'];
+		$value['url_image'] 	= base_url() .'assets/images/news/'. $news->row_array()['encrypt_image'];
+		$data = $value;
+		
 		if($news->num_rows() > 0) {
 			$result['code'] 	= 200;
 			$result['error']	= FALSE;
 			$result['message']	= 'Success';
-			$result['news'] 	= $news->row_array();
+			$result['news'] 	= $data;
 		} else {
 			$result['code'] 	= 404;
 			$result['error']	= TRUE;
 			$result['message']	= 'Not found news';
 		}
-		echo json_encode($result); 
+		echo json_encode($result, JSON_UNESCAPED_SLASHES); 
 	}
 
 	public function add()
