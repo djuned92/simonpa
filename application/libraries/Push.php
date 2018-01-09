@@ -72,25 +72,22 @@ class Push {
     // dispara a notificacao
     public function fire( $idCelular = false ) {
         // seta o corpo
-        $body = [
+       $body = [
             "to" => ( $idCelular ) ? $idCelular : "/topics/all",
-            "notification" => [ 
-                "title"             => $this->title, 
-                "body"              => $this->body,
-                "lat"               => $this->lat, 
-                "lng"               => $this->lng, 
-                "notification_id"   => $this->notification_id, 
-                "date"              => $this->date, 
-                // "sound"             => "default", 
-                // "icon"              => "notify"
-            ],
+            // "notification" => [ 
+            //     "title"             => $this->title, 
+            //     "body"              => $this->body,
+            //     "sound"             => "default", 
+            //     "icon"              => "notify",
+            // ],
             "data" => [
                 "title"             => $this->title, 
                 "body"              => $this->body,
                 "lat"               => $this->lat, 
                 "lng"               => $this->lng, 
                 "notification_id"   => $this->notification_id, 
-                "date"              => $this->date, 
+                "date"              => $this->date,
+                
             ]
         ];
         // verifica se existe uma imagem

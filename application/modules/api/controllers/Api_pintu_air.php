@@ -29,6 +29,35 @@ class Api_pintu_air extends MX_Controller {
 		echo json_encode($result, JSON_NUMERIC_CHECK); 
 	}
 
+	public function get_by_id_date()
+	{
+		$id 	= $this->input->post('user_id');
+		$date 	= $this->input->post('date');
+
+		$query = "SELECT `u`.`username`,`u`.`device_token`, `pa`.`id`, `pa`.`gaugeNameId`, `pa`.`latitude` as `lat`,
+								`pa`.`longitude` as `lng`, `pa`.`measureDateTime`, `pa`.`warningNameId`,`upa`.`user_id`, 
+								`upa`.`gaugeId`
+					FROM `user_pintu_air` as `upa`
+					JOIN `users` as `u` ON `upa`.`user_id` = `u`.`id`
+					JOIN `pintu_air` as `pa` ON `upa`.`gaugeId` = `pa`.`gaugeId`
+					WHERE `upa`.`user_id` = '$id'
+					AND `upa`.`is_active` = 1
+					AND `pa`.`measureDateTime` = '$date'";
+
+		$pintu_air = $this->db->query($query);
+		if($pintu_air->num_rows() > 0) {
+			$result['code'] 	= 200;
+			$result['error']	= FALSE;
+			$result['message']	= 'Success';
+			$result['pintu_air'] = $pintu_air->result_array();
+		} else {
+			$result['code'] 	= 404;
+			$result['error']	= TRUE;
+			$result['message']	= 'Not found pintu air';
+		}
+		echo json_encode($result, JSON_NUMERIC_CHECK);
+	}
+
 	public function update_user_pintu_air()
 	{
 		$id 		= $this->input->post('id');
