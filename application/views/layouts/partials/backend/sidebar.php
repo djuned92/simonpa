@@ -25,6 +25,7 @@
                     <li><a href="<?=base_url('home')?>"><i class="fa fa-home"></i> Dashboard </a></li>
                     <li><a href="<?=base_url('news')?>"><i class="fa fa-newspaper-o"></i> Manage News </a></li>
                     <li><a href="<?=base_url('users')?>"><i class="fa fa-users"></i> Manage Users </a></li>
+                    <li><a href="<?=base_url('push_notif')?>"><i class="fa fa-send"></i> Push Notif </a></li>
                     <!-- <li><a href="<?=base_url('pintu_air')?>"><i class="fa fa-tint"></i> Manage Pintu Air </a></li> -->
                 </ul>
             </div>
